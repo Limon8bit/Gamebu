@@ -1,0 +1,20 @@
+{% extends 'main/index.html' %}
+{% block user_info %}
+    <div class='author_info p-3 bg-light rounded col-md-12 mb-3'>
+        <h4> Страница пользователя: {{ author.username }}</h4>
+        <ul class="author_info_list p-0 m-0" style="list-style: none;">
+            <h5>Пользовательская информация:</h5>
+            {% if author.user_sex %}
+                <li>Пол: {{ author.user_sex }}</li>
+            {% endif %}
+            {% if author.b_date %}
+                <li>Дата рождения: {{ author.b_date }}</li>
+            {% endif %}
+            {% if author.user_from %}
+                <li>Город: {{ author.user_from}}</li>
+            {% endif %}
+            <li>Зарегистрировался: {{ author.date_joined}}</li>
+            <li>Почта пользователя: {{ author.email }}</li>
+        </ul>
+    </div>
+{% endblock user_info %}
