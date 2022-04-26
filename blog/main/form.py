@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import TextInput, CharField, PasswordInput, ModelForm, Textarea, FileInput, EmailInput, \
     DateInput, Select
-from .models import Post, User, Comment
+from .models import Post, User, Comment, Profile
 
 
 class PostForm(ModelForm):
@@ -82,6 +82,30 @@ class RegisterUserForm(UserCreationForm):
             'id': 'floatingInput'
         })
     )
+    password1 = CharField(
+        label='Пароль',
+        widget=PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Пароль',
+            'id': 'floatingPassword',
+        })
+    )
+    password2 = CharField(
+        label='Повторите пароль',
+        widget=PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Повторите пароль',
+            'id': 'floatingPassword',
+            'aria-label': "Floating label select example"
+        })
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']
+
+
+class ProfileForm(ModelForm):
     email = CharField(
         label='Почта',
         widget=EmailInput(attrs={
@@ -108,34 +132,16 @@ class RegisterUserForm(UserCreationForm):
             'required': 'False'
         })
     )
-    password1 = CharField(
-        label='Пароль',
-        widget=PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Пароль',
-            'id': 'floatingPassword',
-        })
-    )
-    password2 = CharField(
-        label='Повторите пароль',
-        widget=PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Повторите пароль',
-            'id': 'floatingPassword',
-            'aria-label': "Floating label select example"
-        })
-    )
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'b_date', 'user_from', 'user_sex', 'password1', 'password2']
+        model=Profile
+        fields= ('email', 'b_date', 'user_from', 'user_sex')
         widgets = {
             'user_sex': Select(attrs={
                 'id': 'floatingSelect',
                 'class': 'form-select',
-            }),
+            })
         }
-
 
 class CommentForm(ModelForm):
     def __init__(self, *args, **kwargs):

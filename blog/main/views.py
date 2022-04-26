@@ -3,11 +3,11 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, TemplateView, FormView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, FormView, UpdateView
 import logging
 from django.views.generic.detail import SingleObjectMixin
-from .form import LoginUserForm, PostForm, RegisterUserForm, CommentForm
-from .models import Post, User, Comment
+from .form import LoginUserForm, PostForm, RegisterUserForm, CommentForm, ProfileForm
+from .models import Post, User, Comment, Profile
 from .utils import UserDataMixin
 
 
@@ -198,4 +198,19 @@ class MyProfile(UserDataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['title'] = 'Моя страница'
+        return context
+
+
+class ProfileUpdate(LoginRequiredMixin, UpdateView):
+    model = Profile
+    fields = ['b_date']
+    template_name = 'main/update.html'
+    pk_url_kwarg = 'user_pk'
+
+    def get_form_class(self):
+        return ProfileForm
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['title'] = 'Редактирование профиля'
         return context

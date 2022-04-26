@@ -13,11 +13,13 @@
                         </a>
                     </h2>
                     {% if post.image %}
-                        <img src="{{ post.image.url }}" alt="" class="w-100 rounded mb-3">
+                        <img src="{{ post.image.url }}" alt="" class="w-100 rounded mb-3" style="height: 465px">
                     {% endif %}
-                    {% filter truncatewords:200 %}
-                    <p>{{ post.text|capfirst }}</p>
-                    {% endfilter %}
+                    {% if post.text %}
+                        {% filter truncatewords:200 %}
+                        <p>{{ post.text|capfirst }}</p>
+                        {% endfilter %}
+                    {% endif %}
                     <div class="w-100 small d-flex justify-content-between border-top pt-2">
                         <p class="blog-post-meta mb-0">{{ post.publish_date }}</p>
                         <a href="{% url 'main:user' post.author.slug %}" class="text-warning text-decoration-none">

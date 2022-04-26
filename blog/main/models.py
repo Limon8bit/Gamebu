@@ -1,33 +1,32 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db.models import PROTECT, TextField, ForeignKey, CASCADE, DateTimeField
+from django.db.models.signals import post_save
 from django.urls import reverse
+from django.dispatch import receiver
 from unidecode import unidecode
 from django.db import models
 from django.utils.text import slugify
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, username, email, slug, password, **extra_fields):
+    def _create_user(self, username, slug, password, **extra_fields):
         if not username:
             raise ValueError('Неверный логин')
-        if not email:
-            raise ValueError('Неверная почта')
-        email = self.normalize_email(email)
-        user = self.model(username=username, email=email, slug=slug, **extra_fields)
+        user = self.model(username=username, slug=slug, **extra_fields)
         user.set_password(password)
         user.save()
         return user
 
-    def create_user(self, username, email, slug, password, **extra_fields):
+    def create_user(self, username, slug, password, **extra_fields):
         extra_fields['is_staff'] = False
         extra_fields['is_superuser'] = False
-        return self._create_user(username, email, slug, password, **extra_fields)
+        return self._create_user(username, slug, password, **extra_fields)
 
-    def create_superuser(self, username, email, slug, password,**extra_fields):
+    def create_superuser(self, username, slug, password,**extra_fields):
         extra_fields['is_staff'] = True
         extra_fields['is_superuser'] = True
-        return self._create_user(username, email, slug, password, **extra_fields)
+        return self._create_user(username, slug, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -37,34 +36,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_index=True,
         unique=True
     )
-    email = models.EmailField(
-        'Email',
-        max_length=50,
-        unique=True,
-        blank=True,
-        null=True
-    )
     slug = models.SlugField(
         'Slug',
         max_length=25,
         blank=True,
         null=True
-    )
-    b_date = models.DateField(
-        'Birthday',
-        blank=True,
-        null=True,
-    )
-    user_from = models.TextField(
-        'User from',
-        blank=True,
-        null=True,
-    )
-    user_sex = models.ForeignKey(
-        'Sex',
-        on_delete=PROTECT,
-        blank=True,
-        null=True,
     )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -72,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
 
-    REQUIRED_FIELDS = ['email', 'slug']
+    REQUIRED_FIELDS = ['slug']
 
     objects = UserManager()
 
@@ -85,6 +61,46 @@ class User(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         self.slug = slugify(unidecode(str(self.username)))
         return super().save(*args, **kwargs)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=CASCADE)
+    email = models.EmailField(
+        'Email',
+        max_length=50,
+        unique=True,
+        blank=True,
+        null=True
+    )
+    b_date = models.DateField(
+        'Birthday',
+        blank=True,
+        null=True,
+    )
+    user_from = models.CharField(
+        'User from',
+        max_length=50,
+        blank=True,
+        null=True,
+    )
+    user_sex = models.ForeignKey(
+        'Sex',
+        on_delete=PROTECT,
+        blank=True,
+        null=True,
+    )
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    def get_absolute_url(self):
+        return reverse('main:my_profile')
 
 
 class Post(models.Model):

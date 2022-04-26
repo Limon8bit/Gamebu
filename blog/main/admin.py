@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, User, Sex, Comment
+from .models import Post, User, Profile, Sex, Comment
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -16,4 +16,5 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment)
+admin.site.register(Profile)
 admin.site.register(Sex)

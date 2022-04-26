@@ -1,21 +1,29 @@
 {% extends 'main/index.html' %}
 {% block user_info %}
-    <div class='author_info p-3 bg-light rounded col-md-12 mb-3'>
+    <div class='author_info p-3 bg-light rounded col-md-12 mb-3 d-flex row m-0 g-3'>
         <h4> Страница пользователя: {{ user.username }}</h4>
-        <ul class="author_info_list p-0 m-0" style="list-style: none;">
-            <h5>Пользовательская информация:</h5>
-            {% if author.user_sex %}
-                <li>Пол: {{ user.user_sex }}</li>
-            {% endif %}
-            {% if author.b_date %}
-                <li>Дата рождения: {{ user.b_date }}</li>
-            {% endif %}
-            {% if author.user_from %}
-                <li>Город: {{ user.user_from}}</li>
-            {% endif %}
-            <li>Зарегистрировался: {{ user.date_joined}}</li>
-            <li>Почта пользователя: {{ user.email }}</li>
-        </ul>
-
+        <div class="col-md-6" >
+            <ul class="author_info_list p-0 m-0" style="list-style: none;">
+                <h5>Пользовательская информация:</h5>
+                {% if user.profile.user_sex %}
+                    <li>Пол: {{ user.profile.user_sex }}</li>
+                {% endif %}
+                {% if user.profile.b_date %}
+                    <li>Дата рождения: {{ user.profile.b_date }}</li>
+                {% endif %}
+                {% if user.profile.user_from %}
+                    <li>Город: {{ user.profile.user_from}}</li>
+                {% endif %}
+                <li>Зарегистрировался: {{ user.date_joined}}</li>
+                {% if user.profile.email %}
+                    <li>Почта пользователя: {{ user.profile.email }}</li>
+                {% endif %}
+            </ul>
+            <a href="{% url 'main:profile_update' user.pk %}">
+                <button class="btn btn-warning w-50 mt-3">Редактировать</button>
+            </a>
+        </div>
+        <div class="col-md-6" >
+        </div>
     </div>
 {% endblock user_info %}

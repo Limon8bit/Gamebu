@@ -14,5 +14,6 @@ urlpatterns = [
     path('search', Search.as_view(), name='search'),
     path('about', About.as_view(), name='about'),
     path('user/<slug:user_slug>', UserPage.as_view(), name='user'),
-    path('my_profile', MyProfile.as_view(),name='my_profile'),
+    path('my_profile', MyProfile.as_view(), name='my_profile'),
+    path('user_update/<int:user_pk>', ProfileUpdate.as_view(), name='profile_update'),
 ]
