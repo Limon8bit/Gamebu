@@ -1,8 +1,11 @@
 {% extends 'main/base.html' %}
 {%  block content %}
+
 <div class="container d-flex flex-column align-items-center justify-content-center">
+
     <form class="needs-validation w-50 d-flex flex-column align-items-center bg-light rounded p-5"
     enctype="multipart/form-data" method="post">
+        <h5>{{ title }}</h5>
         {% csrf_token %}
         <div class="row g-3 d-flex flex-column align-items-center w-100">
             {% for widget in form %}

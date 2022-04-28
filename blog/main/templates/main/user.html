@@ -1,22 +1,32 @@
 {% extends 'main/index.html' %}
 {% block user_info %}
-    <div class='author_info p-3 bg-light rounded col-md-12 mb-3'>
-        <h4> Страница пользователя: {{ author.username }}</h4>
-        <ul class="author_info_list p-0 m-0" style="list-style: none;">
-            <h5>Пользовательская информация:</h5>
-            {% if author.profile.user_sex %}
-                <li>Пол: {{ author.profile.user_sex }}</li>
-            {% endif %}
-            {% if author.profile.b_date %}
-                <li>Дата рождения: {{ author.profile.b_date }}</li>
-            {% endif %}
-            {% if author.profile.user_from %}
-                <li>Город: {{ author.profile.user_from}}</li>
-            {% endif %}
-            <li>Зарегистрировался: {{ author.date_joined}}</li>
-            {% if author.profile.email %}
-                <li>Почта пользователя: {{ author.profile.email }}</li>
-            {% endif %}
-        </ul>
+    <div class='author_info p-3 bg-light rounded col-md-12 mb-3 d-flex row m-0 g-3 justify-content-center'>
+        <h4> Страница пользователя: {{ user.username }}</h4>
+            <div class="col-md-6" >
+                <ul class="author_info_list p-0 m-0" style="list-style: none;">
+                    <h5>Пользовательская информация:</h5>
+                    {% if author.profile.user_sex %}
+                        <li>Пол: {{ author.profile.user_sex }}</li>
+                    {% endif %}
+                    {% if author.profile.b_date %}
+                        <li>Дата рождения: {{ author.profile.b_date }}</li>
+                    {% endif %}
+                    {% if author.profile.user_from %}
+                        <li>Город: {{ author.profile.user_from}}</li>
+                    {% endif %}
+                    <li>Зарегистрировался: {{ author.date_joined}}</li>
+                    {% if author.profile.email %}
+                        <li>Почта пользователя: {{ author.profile.email }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-md-6" >
+                <h5>О себе:</h5>
+                {% if not author.profile.bio %}
+                <p>Автор ничего о себе не написал.</p>
+                {% else %}
+                <p class="m-0">{{ author.profile.bio }}</p>
+                {% endif %}
+            </div>
     </div>
 {% endblock user_info %}

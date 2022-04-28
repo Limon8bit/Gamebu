@@ -89,6 +89,12 @@ class Profile(models.Model):
         blank=True,
         null=True,
     )
+    bio = models.TextField(
+        'Biography',
+        max_length = 350,
+        blank = True,
+        null = True,
+    )
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):

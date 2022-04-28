@@ -13,7 +13,7 @@
                         </a>
                     </h2>
                     {% if post.image %}
-                        <img src="{{ post.image.url }}" alt="" class="w-100 rounded mb-3" style="height: 465px">
+                        <img src="{{ post.image.url }}" alt="" class="w-100 rounded mb-3">
                     {% endif %}
                     {% if post.text %}
                         {% filter truncatewords:200 %}

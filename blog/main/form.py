@@ -23,7 +23,8 @@ class PostForm(ModelForm):
             }),
             'text': Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Текст поста'
+                'placeholder': 'Текст поста',
+                'style': 'resize: none'
             }),
             'image': FileInput(attrs={
                 'class': 'form-control'
@@ -132,15 +133,21 @@ class ProfileForm(ModelForm):
             'required': 'False'
         })
     )
-
     class Meta:
         model=Profile
-        fields= ('email', 'b_date', 'user_from', 'user_sex')
+        fields= ('email', 'b_date', 'user_from', 'user_sex', 'bio')
         widgets = {
             'user_sex': Select(attrs={
                 'id': 'floatingSelect',
                 'class': 'form-select',
-            })
+            }),
+            'bio': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'О себе',
+                'id': 'floatingInput',
+                'type': 'text',
+                'style': 'height: 200px; resize: none',
+            }),
         }
 
 class CommentForm(ModelForm):

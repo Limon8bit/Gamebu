@@ -1,9 +1,8 @@
 {% extends 'main/base.html' %}
 {%  block content %}
-<div class="container">
-    <div class="album py-5 bg-light rounded">
-        <div class="container d-flex justify-content-center">
-            <form method="post" class="w-50 d-flex justify-content-center flex-column">
+<div class="container d-flex justify-content-center">
+    <div class="album py-5 bg-light rounded col-md-6 d-flex justify-content-center">
+            <form method="post" class="w-75 d-flex justify-content-center flex-column">
                 {% csrf_token %}
                 <h1 class="h3 mb-3 fw-normal text-center">Регистрация</h1>
                 <strong class="text-danger">{{ form.non_field_errors }}</strong>

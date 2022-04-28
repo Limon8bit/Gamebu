@@ -1,9 +1,10 @@
 {% extends 'main/base.html' %}
 {%  block content %}
-<div class="container">
-    <div class="album py-5 bg-light rounded">
+<div class="container d-flex justify-content-center">
+    <div class="album py-5 bg-light rounded text-center w-50 ">
+        <h5>{{ title }}</h5>
         <div class="container d-flex justify-content-center">
-            <form method="post" class="w-50 d-flex justify-content-center flex-column">
+            <form method="post" class="w-75 d-flex justify-content-center flex-column">
                 {% csrf_token %}
                 <strong class="text-danger">{{ form.non_field_errors }}</strong>
                 {% for widget in form %}
@@ -12,12 +13,18 @@
                         {{ widget }}
                         <label for="floatingSelect">Ваш пол</label>
                     </div>
+                {% elif widget.name == 'bio' %}
+                    <div class="form-floating mb-3 text-wrap">
+                        {{ widget }}
+                        <label for="floatingInput">О себе</label>
+                    </div>
                 {% else %}
-                    <div class="form-floating form-outline-warning mb-3">
+                    <div class="form-floating mb-3">
                         {{ widget }}
                         {{ widget.label_tag }}
                     </div>
                 {% endif %}
+
                     {% if widget.errors %}
                         <ol>
                             {% for error in widget.errors %}
