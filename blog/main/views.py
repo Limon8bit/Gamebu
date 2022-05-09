@@ -203,14 +203,13 @@ class MyProfile(UserDataMixin, ListView):
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
     model = Profile
-    fields = ['b_date']
     template_name = 'main/update.html'
     pk_url_kwarg = 'user_pk'
 
     def get_form_class(self):
         return ProfileForm
 
-    def get_context_data(self):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data()
         context['title'] = 'Редактирование профиля'
         return context

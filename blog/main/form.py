@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import TextInput, CharField, PasswordInput, ModelForm, Textarea, FileInput, EmailInput, \
-    DateInput, Select
+    DateInput, Select, DateField
 from .models import Post, User, Comment, Profile
+from datetime import date
 
 
 class PostForm(ModelForm):
@@ -115,15 +116,6 @@ class ProfileForm(ModelForm):
             'id': 'floatingInput'
         })
     )
-    b_date = CharField(
-        label='Дата рождения',
-        widget=DateInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Дата рождения',
-            'type': 'date',
-            'required': False
-        })
-    )
     user_from = CharField(
         label='Ваш город',
         widget=TextInput(attrs={
@@ -141,6 +133,12 @@ class ProfileForm(ModelForm):
                 'id': 'floatingSelect',
                 'class': 'form-select',
             }),
+            'b_date': DateInput(attrs={
+                'class': 'form-control',
+                'type': 'text',
+                'required': False,
+                'onfocus': "(this.type='date')",
+            }),
             'bio': Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': 'О себе',
@@ -149,6 +147,15 @@ class ProfileForm(ModelForm):
                 'style': 'height: 200px; resize: none',
             }),
         }
+
+    def clean(self):
+        super(ProfileForm, self).clean()
+        b_date = self.cleaned_data.get('b_date')
+        if b_date > date.today():
+            self._errors['b_date'] = self.error_class([
+                'Путешествия во времени вредны для вашего здоровья!'
+            ])
+        return self.cleaned_data
 
 class CommentForm(ModelForm):
     def __init__(self, *args, **kwargs):
