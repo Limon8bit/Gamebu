@@ -43,7 +43,7 @@
         <div class="col-md-4 mt-3">
             <div class="position-sticky" style="top: 16px;">
                 {% if not request.user.is_authenticated %}
-                <div class="p-4 bg-light rounded">
+                <div class="p-4 bg-light rounded mb-3">
                     <h3 class="mb-3 fw-normal text-center rounded">Вход или регистрация</h3>
                     <a href="{% url 'main:login' %}">
                         <button class="w-100 btn btn-lg btn-warning mb-3" type="button">Вход</button>
@@ -76,6 +76,7 @@
                     <input type="text" name='q' class="form-control form-control-dark" placeholder="Поиск"
                            aria-label="Search">
                 </form>
+                {% if request.user.is_authenticated %}
                 <div class="p-3 fw-normal bg-light rounded mb-3">
                     <h3>Добавить комментарий</h3>
                     <form action="" method="POST">
@@ -84,6 +85,7 @@
                         <button class='btn w-100 btn-warning rounded btn-lg' type="submit">Отправить</button>
                     </form>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

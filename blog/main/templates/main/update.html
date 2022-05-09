@@ -1,40 +1,54 @@
 {% extends 'main/base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'main/css/update.css' %}">
+{% endblock style %}
 {%  block content %}
 <div class="container d-flex justify-content-center">
-    <div class="album py-5 bg-light rounded text-center w-50 ">
+    <div class="album py-5 bg-light rounded text-center col-lg-6 col-md-8 col-sm-10 ">
         <h5>{{ title }}</h5>
         <div class="container d-flex justify-content-center">
             <form method="post" class="w-75 d-flex justify-content-center flex-column">
                 {% csrf_token %}
                 <strong class="text-danger">{{ form.non_field_errors }}</strong>
                 {% for widget in form %}
-                {% if widget.name == 'user_sex'%}
-                    <div class="form-floating mb-3">
-                        {{ widget }}
-                        <label for="floatingSelect">Ваш пол</label>
-                    </div>
-                {% elif widget.name == 'bio' %}
-                    <div class="form-floating mb-3 text-wrap">
-                        {{ widget }}
-                        <label for="floatingInput">О себе</label>
-                    </div>
-                {% else %}
-                    <div class="form-floating mb-3">
-                        {{ widget }}
-                        {{ widget.label_tag }}
-                    </div>
-                {% endif %}
-
-                    {% if widget.errors %}
-                        <ol>
-                            {% for error in widget.errors %}
-                            <li><strong class="text-danger">{{ error }}</strong></li>
-                            {% endfor %}
-                        </ol>
+                    {% if widget.name == 'user_sex'%}
+                        <div class="form-floating mb-3">
+                            {{ widget }}
+                            <label for="floatingSelect">Ваш пол</label>
+                        </div>
+                    {% elif widget.name == 'bio' %}
+                        <div class="form-floating mb-3 text-wrap">
+                            {{ widget }}
+                            <label for="floatingInput">О себе</label>
+                        </div>
+                    {% elif widget.name == 'b_date' %}
+                        <div class="form-floating mb-3 text-wrap">
+                            {{ widget }}
+                            <label for="floatingInput">Дата рождения:</label>
+                        </div>
+                    {% else %}
+                        <div class="form-floating mb-3">
+                            {{ widget }}
+                            {{ widget.label_tag }}
+                        </div>
                     {% endif %}
+                {% if widget.errors %}
+                <ul style="list-style: none">
+                    {% for error in widget.errors %}
+                    <li><strong class="text-danger">{{ error }}</strong></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
                 {% endfor %}
+                {% if errors %}
+                    <p><strong class="text-danger">{{ error }}</strong></p>
+                {% endif %}
                 <button class="w-100 btn btn-lg btn-warning" type="submit">OK</button>
             </form>
+            {% if error %}
+                <p class="text-danger">{{ error }}</p>
+            {% endif %}
         </div>
     </div>
 </div>

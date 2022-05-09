@@ -18,11 +18,11 @@
                 {{ widget }}
             </div>
             {% if widget.errors %}
-                <ol>
+                <ul style="list-style: none">
                     {% for error in widget.errors %}
                     <li><strong class="text-danger">{{ error }}</strong></li>
                     {% endfor %}
-                </ol>
+                </ul>
             {% endif %}
             {% endfor %}
         </div>
