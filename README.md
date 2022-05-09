@@ -10,29 +10,29 @@ This project maked on Django because its final project of my learning of python 
 
 - [X] Registration
 
-![Registration](./README/registration page.png)
+![Registration](https://github.com/Limon8bit/Gamebu/blob/main/README/registration%20page.png)
 
 - [X] Login
 
-![Login](./README/login_page.png)
+![Login](https://github.com/Limon8bit/Gamebu/blob/main/README/login_page.png)
 
 - [X] Logout
 
-![Login/logout changes](./README/User interface changes after login.png)
+![Login/logout changes](https://github.com/Limon8bit/Gamebu/blob/main/README/User%20interface%20changes%20after%20login.png)
 
 - [X] Post some posts with text/image/combine this two.
 
-![Another posts](./README/some types of posts.png)
+![Another posts](https://github.com/Limon8bit/Gamebu/blob/main/README/some%20types%20of%20posts.png)
 
 - [X] Comment posts
 
-![Post with comment](./README/postpage with comment.png)
+![Post with comment](https://github.com/Limon8bit/Gamebu/blob/main/README/postpage%20with%20comment.png)
 
 - [X] Check the author page using link from post or comment
 
 - [X] Search posts with title or text content with search field
 
-![Search](./README/search system work.png)
+![Search](https://github.com/Limon8bit/Gamebu/blob/main/README/search%20system%20work.png)
 
 
 ###List of future contents:
