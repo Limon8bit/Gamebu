@@ -44,13 +44,4 @@ This project maked on Django because its final project of my learning of python 
 
 ### How to install and run:
 
-After download this project you must install python interpreter (3.9+), after this you need to install some 
-packet files with pip. For this use terminal in pycharm or command prompt or powershell and move to this 
-project folder and use command pip install "requirement packet", where requirement packet it's a packet from this list:
-
-#### Requirement packets:
-	django
-	pillow
-	unidecode
-
-After install this packets use command "cd blog" and "python manage.py runserver". Complete!
+After download this project you must install docker and run this. Change the CSRF trusted ips in settings of the project to your own IP like this actually is. Enter the project directory (../Gamebu/blog) and run command `docker-compose up -d` after complete this proces use command `docker-compose ps` for check state of docker images (web, postgres, nginx). If its state is UP all is good. For create `admin-user` use command `docker exec -it blog_web_1 bin/bash` to enter the project environment. Next use command `python manage.py createsuperuser` and enter the parameters of your admin-user (you can use any slug, but recommended to use username in lowercase). Last step: connect to project with yours browser `http://yourdomen.yourip/admin`, enter username and password of your admin-user and create objects of `sexs table`. Complete!
