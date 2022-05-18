@@ -34,7 +34,7 @@
                         </div>
                     {% endif %}
                 {% if widget.errors %}
-                <ul style="list-style: none">
+                <ul style="list-style: none; padding: 0">
                     {% for error in widget.errors %}
                     <li><strong class="text-danger">{{ error }}</strong></li>
                     {% endfor %}
@@ -42,7 +42,9 @@
             {% endif %}
                 {% endfor %}
                 {% if errors %}
-                    <p><strong class="text-danger">{{ error }}</strong></p>
+                    {% for error in errors %}
+                        <p><strong class="text-danger">{{ error }}</strong></p>
+                    {% endfor %}
                 {% endif %}
                 <button class="w-100 btn btn-lg btn-warning" type="submit">OK</button>
             </form>

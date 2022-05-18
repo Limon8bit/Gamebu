@@ -4,6 +4,7 @@ from django.forms import TextInput, CharField, PasswordInput, ModelForm, Textare
     DateInput, Select, DateField
 from .models import Post, User, Comment, Profile
 from datetime import date
+import re
 
 
 class PostForm(ModelForm):
@@ -148,12 +149,25 @@ class ProfileForm(ModelForm):
             }),
         }
 
+
+
     def clean(self):
         super(ProfileForm, self).clean()
         b_date = self.cleaned_data.get('b_date')
+        email = self.cleaned_data.get('email')
+        def check(str):
+            regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+            if (re.fullmatch(regex, str)):
+                return(True)
+            else:
+                print(False)
         if b_date > date.today():
             self._errors['b_date'] = self.error_class([
                 'Путешествия во времени вредны для вашего здоровья!'
+            ])
+        if not check(email):
+            self._errors['email'] = self.error_class([
+                'Неверный формат электронной почты'
             ])
         return self.cleaned_data
 

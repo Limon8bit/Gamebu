@@ -182,6 +182,7 @@ class UserPage(ListView):
         context = super(UserPage, self).get_context_data()
         context['author'] = User.objects.get(slug=self.request.path.rsplit('/', 1)[1])
         context['title'] = f"Страница пользователя: {context['author']}"
+        context['owner'] = User.objects.get(slug=self.request.path.rsplit('/', 1)[1])
         return context
 
 
