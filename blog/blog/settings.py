@@ -87,7 +87,12 @@ DATABASES = {
         'PASSWORD': 'admin',
         'HOST': 'postgres',
         'PORT': 5432,
-    }
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': 'mydatabase',
+    # }
+
 }
 
 # Password validation

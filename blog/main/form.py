@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import TextInput, CharField, PasswordInput, ModelForm, Textarea, FileInput, EmailInput, \
-    DateInput, Select, DateField
+    DateInput, Select
 from .models import Post, User, Comment, Profile
 from datetime import date
 import re
@@ -20,16 +20,16 @@ class PostForm(ModelForm):
         fields = ['title', 'text', 'image']
         widgets = {
             'title': TextInput(attrs={
-                'class': 'form-control',
+                'class': 'container-box-form_wrap-form_field-wrap__field',
                 'placeholder': 'Название поста'
             }),
             'text': Textarea(attrs={
-                'class': 'form-control',
+                'class': 'container-box-form_wrap-form_field-wrap__field',
                 'placeholder': 'Текст поста',
                 'style': 'resize: none'
             }),
             'image': FileInput(attrs={
-                'class': 'form-control'
+                'class': 'right-navigation__button fileInput'
             })
         }
 
@@ -41,25 +41,24 @@ class PostForm(ModelForm):
             self._errors['text'] = self.error_class([
                 'Пост должен содержать текст или картинку!'
             ])
-
-            return self.cleaned_data
+        return self.cleaned_data
 
 
 class LoginUserForm(AuthenticationForm):
     username = CharField(
         label='Логин',
         widget=TextInput(attrs={
-            'class': 'form-control',
+            'class': 'container-box-form_wrap-form_field-wrap__field',
             'placeholder': 'Логин',
-            'id': 'floatingInput'
+            'id': 'Input'
         })
     )
     password = CharField(
         label='Пароль',
         widget=PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'container-box-form_wrap-form_field-wrap__field',
             'placeholder': 'Пароль',
-            'id': 'floatingPassword'
+            'id': 'Password'
         })
     )
 
@@ -80,7 +79,7 @@ class RegisterUserForm(UserCreationForm):
     username = CharField(
         label='Имя пользователя',
         widget=TextInput(attrs={
-            'class': 'form-control',
+            'class': 'container-box-form_wrap-form_field-wrap__field',
             'placeholder': 'Имя пользователя',
             'id': 'floatingInput'
         })
@@ -88,7 +87,7 @@ class RegisterUserForm(UserCreationForm):
     password1 = CharField(
         label='Пароль',
         widget=PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'container-box-form_wrap-form_field-wrap__field',
             'placeholder': 'Пароль',
             'id': 'floatingPassword',
         })
@@ -96,7 +95,7 @@ class RegisterUserForm(UserCreationForm):
     password2 = CharField(
         label='Повторите пароль',
         widget=PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'container-box-form_wrap-form_field-wrap__field',
             'placeholder': 'Повторите пароль',
             'id': 'floatingPassword',
             'aria-label': "Floating label select example"
@@ -109,18 +108,10 @@ class RegisterUserForm(UserCreationForm):
 
 
 class ProfileForm(ModelForm):
-    email = CharField(
-        label='Почта',
-        widget=EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Почта',
-            'id': 'floatingInput'
-        })
-    )
     user_from = CharField(
         label='Ваш город',
         widget=TextInput(attrs={
-            'class': 'form-control',
+            'class': 'container-box-form_wrap-form_field-wrap__field',
             'placeholder': 'Ваш город',
             'id': 'floatingInput',
             'required': 'False'
@@ -130,18 +121,23 @@ class ProfileForm(ModelForm):
         model=Profile
         fields= ('email', 'b_date', 'user_from', 'user_sex', 'bio')
         widgets = {
+            'email': TextInput(attrs={
+                'class': 'container-box-form_wrap-form_field-wrap__field',
+                'placeholder': 'Почта',
+                'id': 'floatingInput',
+            }),
             'user_sex': Select(attrs={
                 'id': 'floatingSelect',
-                'class': 'form-select',
+                'class': 'container-box-form_wrap-form_field-wrap__field',
             }),
             'b_date': DateInput(attrs={
-                'class': 'form-control',
+                'class': 'container-box-form_wrap-form_field-wrap__field',
                 'type': 'text',
                 'required': False,
                 'onfocus': "(this.type='date')",
             }),
             'bio': Textarea(attrs={
-                'class': 'form-control',
+                'class': 'container-box-form_wrap-form_field-wrap__field',
                 'placeholder': 'О себе',
                 'id': 'floatingInput',
                 'type': 'text',
@@ -149,23 +145,16 @@ class ProfileForm(ModelForm):
             }),
         }
 
-
-
     def clean(self):
         super(ProfileForm, self).clean()
         b_date = self.cleaned_data.get('b_date')
         email = self.cleaned_data.get('email')
-        def check(str):
-            regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-            if (re.fullmatch(regex, str)):
-                return(True)
-            else:
-                print(False)
+        print(email)
         if b_date > date.today():
             self._errors['b_date'] = self.error_class([
                 'Путешествия во времени вредны для вашего здоровья!'
             ])
-        if not check(email):
+        if email is None:
             self._errors['email'] = self.error_class([
                 'Неверный формат электронной почты'
             ])
@@ -183,7 +172,7 @@ class CommentForm(ModelForm):
         fields = ['text']
         widgets = {
             'text': Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Текст комментария'
+                'class': 'right-navigation-comment_field__comment_form',
+                'placeholder': 'Текст комментария (250 символов)'
             }),
         }

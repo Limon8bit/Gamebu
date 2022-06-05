@@ -25,6 +25,9 @@ class Index(UserDataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['title'] = 'Главная'
+        context['comments'] = {}
+        for post in self.get_queryset():
+            context['comments'][post.pk] = context['comments_count'] = len(list(Comment.objects.filter(post=post)))
         return context
 
 
@@ -128,7 +131,7 @@ class LoginUser(UserDataMixin, LoginView):
         return super().post(request, *args, **kwargs)
 
 
-class LogoutUser(UserDataMixin, LogoutView):
+class LogoutUser(LoginRequiredMixin, UserDataMixin, LogoutView):
     next_page = reverse_lazy('main:index')
 
 
@@ -163,6 +166,9 @@ class Search(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
+        context['comments'] = {}
+        for post in self.get_queryset():
+            context['comments'][post.pk] = context['comments_count'] = len(list(Comment.objects.filter(post=post)))
         return context
 
 
@@ -171,6 +177,14 @@ class UserPage(ListView):
     template_name = 'main/user.html'
     slug_url_kwarg = 'user_slug'
     context_object_name = 'posts'
+
+    def select_template(self):
+        if User.objects.get(slug=self.request.path.rsplit('/', 1)[1]) == self.request.user:
+            self.template_name = 'main/my_profile.html'
+        else:
+            self.template_name = 'main/user.html'
+        return self.template_name
+
 
     def get_queryset(self):
         post_list = Post.objects.filter(
@@ -183,10 +197,15 @@ class UserPage(ListView):
         context['author'] = User.objects.get(slug=self.request.path.rsplit('/', 1)[1])
         context['title'] = f"Страница пользователя: {context['author']}"
         context['owner'] = User.objects.get(slug=self.request.path.rsplit('/', 1)[1])
+        context['comments'] = {}
+        for post in self.get_queryset():
+            context['comments'][post.pk] = context['comments_count'] = len(list(Comment.objects.filter(post=post)))
         return context
 
 
-class MyProfile(UserDataMixin, ListView):
+
+
+class MyProfile(LoginRequiredMixin, UserDataMixin, ListView):
     model = Post
     template_name = 'main/my_profile.html'
     context_object_name = 'posts'
@@ -199,6 +218,9 @@ class MyProfile(UserDataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['title'] = 'Моя страница'
+        context['comments'] = {}
+        for post in self.get_queryset():
+            context['comments'][post.pk] = context['comments_count'] = len(list(Comment.objects.filter(post=post)))
         return context
 
 
