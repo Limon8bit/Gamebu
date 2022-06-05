@@ -1,0 +1,68 @@
+.comments{
+    border: 2px solid rgb(107, 107, 107);
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.comments__none{
+    text-align: center;
+    font-size: 24px;
+    background-color: rgb(61, 61, 61);
+    padding: 10px;
+}
+
+.comments-comment{
+    box-sizing: border-box;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 10px 5px;
+}
+
+.comments-comment:nth-child(odd){
+    background-color: rgb(176,176,176);
+    color: black;
+}
+
+.comments-comment:nth-child(even){
+    background-color: rgb(107, 107, 107)
+}
+
+.comments-comment .post-text__text{
+    padding: 2px;
+    overflow-wrap: anywhere;
+}
+
+.comments-comment .post-description{
+    padding: 2px;
+}
+
+.right-navigation-comment_field__comment_form{
+    width: 100%;
+    padding: 0;
+    border: none;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    resize: none;
+}
+
+.right-navigation-comment_field__comment_form::placeholder{
+    font-size: 16px;
+}
+
+.right-navigation-comment_field__comment_form:focus::placeholder{
+    color: white;
+}
+
+.right-navigation-comment_field-title{
+    margin-bottom: 10px;
+}
+
+.right-navigation-comment_field__comment_form:focus{
+    border: none;
+    outline: none;
+}

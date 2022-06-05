@@ -1,0 +1,102 @@
+.post{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    background-color: rgb(107, 107, 107);
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: white;
+}
+
+.post-post_title{
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.post-post_title__title{
+    margin: 0;
+    text-decoration: none;
+    color: white;
+}
+
+.post-card{
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.post-card__image{
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid rgb(63, 63, 63);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.post-card__text{
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+    width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.show{
+    position: absolute;
+    bottom: 0;
+    background-color: rgb(43, 43, 43);
+    width: 100%;
+    text-align: center;
+    padding: 10px 0 10px 0;
+    font-size: 18px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: white;
+    border-bottom-radius: none;
+    cursor: pointer;
+}
+
+.post-description{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid rgba(63, 63, 63, 0.4);
+    padding-top: 5px;
+    box-sizing: border-box;
+}
+
+.post-description__pub_date{
+    margin: 0;
+}
+
+.post-description-comments_counter{
+    display: flex;
+    align-items: center;
+    width: 30px;
+    justify-content: space-between;
+    margin-left: -100px;
+    text-decoration: none;
+    color: white;
+    transition: 0.8s;
+}
+
+.post-description__author{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: .8s;
+}
+
+.post-description__author:hover{
+    color: rgb(184, 184, 184);
+    transition: .8s
+}
+
+.no-posts{
+    color: white;
+    text-align: center;
+    font-size: 38px;
+}

@@ -1,0 +1,67 @@
+.author_info{
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: rgb(107, 107, 107);
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+}
+
+.author_info-name{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgba(63, 63, 63, 0.4);
+}
+
+.author_info-wrap{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.author_info-wrap h3{
+    margin: 0 0 10px 0;
+}
+
+.author_info-wrap-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: calc(50% - 5px);
+    padding-left: 2px;
+}
+
+.author_info-wrap-list li{
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding-left: 2px;
+}
+
+.author_info-wrap-list li:last-child{
+    margin-bottom: 0;
+}
+
+.author_info-wrap-user_bio{
+    width: calc(50% - 5px);
+}
+
+.author_info-wrap-user_bio p{
+    font-size: 18px;
+}
+
+.bio_button-wrap{
+    display: flex;
+    justify-content: space-around;
+}
+
+.bio_button-wrap a{
+    width: 50%;
+}
+
+.bio_button-wrap__bio_button{
+    width: 100%;
+}
+
+.post:first-child h2{
+    margin-bottom: 0;
+}
