@@ -25,9 +25,10 @@ class Index(UserDataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['title'] = 'Главная'
-        context['comments'] = {}
-        for post in self.get_queryset():
-            context['comments'][post.pk] = context['comments_count'] = len(list(Comment.objects.filter(post=post)))
+        if self.get_queryset():
+            context['comments'] = {}
+            for post in self.get_queryset():
+                context['comments'][post.pk] = context['comments_count'] = len(list(Comment.objects.filter(post=post)))
         return context
 
 
