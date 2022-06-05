@@ -1,10 +1,63 @@
 {% extends 'main/index.html' %}
-{% block user_info %}
-    <div class='author_info p-3 bg-light rounded col-md-12 mb-3 d-flex row m-0 g-3 justify-content-center'>
-        <h4> Страница пользователя: {{ owner.username }}</h4>
-            <div class="col-md-6" >
-                <ul class="author_info_list p-0 m-0" style="list-style: none;">
-                    <h5>Пользовательская информация:</h5>
+{% load static %}
+{% block static-files %}
+    <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/user.css' %}">
+    <script src="https://code.jquery.com/jquery-1.10.2.js" defer></script>
+{% endblock static-files %}
+{% block posts-description %}
+    {% if request.user == owner %}
+        <div class="post">
+            <h2 class="post-post_title">Это ваши посты: </h2>
+        </div>
+    {% else %}
+        <div class="post">
+            <h2 class="post-post_title">Это посты автора: {{ owner.username }}</h2>
+        </div>
+    {% endif %}
+{% endblock posts-description %}
+{% block container-block %}
+    {% if request.user == owner %}
+        <div class='author_info'>
+            <h2 class="author_info-name"> Страница пользователя: {{ request.user }}</h2>
+            <div class="author_info-wrap" >
+                <ul class="author_info-wrap-list ">
+                    <h3>Пользовательская информация:</h3>
+                    {% if user.profile.user_sex %}
+                        <li>Пол: {{ user.profile.user_sex }}</li>
+                    {% endif %}
+                    {% if user.profile.b_date %}
+                        <li>Дата рождения: {{ user.profile.b_date }}</li>
+                    {% endif %}
+                    {% if user.profile.user_from %}
+                        <li>Город: {{ user.profile.user_from}}</li>
+                    {% endif %}
+                    <li>Зарегистрировался: {{ user.date_joined}}</li>
+                    {% if user.profile.email %}
+                        <li>Почта пользователя: {{ user.profile.email }}</li>
+                    {% endif %}
+                </ul>
+                <div class="author_info-wrap-user_bio">
+                    <h3>О себе:</h3>
+                    {% if not request.user.profile.bio %}
+                    <p>Автор ничего о себе не написал.</p>
+                    {% else %}
+                    <p class="author_info-wrap-user_bio__bio">{{ request.user.profile.bio }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="bio_button-wrap">
+                <a href="{% url 'main:profile_update' user.pk %}" >
+                    <button class="right-navigation__button bio_button-wrap__bio_button">Редактировать</button>
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class='author_info'>
+        <h2 class="author_info-name"> Страница пользователя: {{ owner.username }}</h2>
+            <div class="author_info-wrap" >
+                <ul class="author_info-wrap-list ">
+                    <h3>Пользовательская информация:</h3>
                     {% if author.profile.user_sex %}
                         <li>Пол: {{ author.profile.user_sex }}</li>
                     {% endif %}
@@ -19,14 +72,17 @@
                         <li>Почта пользователя: {{ author.profile.email }}</li>
                     {% endif %}
                 </ul>
+                <div class="author_info-wrap-user_bio">
+                    <h3>О себе:</h3>
+                    {% if not author.profile.bio %}
+                    <p>Автор ничего о себе не написал.</p>
+                    {% else %}
+                    <p class="author_info-wrap-user_bio__bio">{{ author.profile.bio }}</p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="col-md-6" >
-                <h5>О себе:</h5>
-                {% if not author.profile.bio %}
-                <p>Автор ничего о себе не написал.</p>
-                {% else %}
-                <p class="m-0">{{ author.profile.bio }}</p>
-                {% endif %}
-            </div>
-    </div>
-{% endblock user_info %}
+        </div>
+    {% endif %}
+{% endblock container-block %}
+<script src="{% static 'main/js/post.js' %}" defer></script>
+

@@ -1,74 +1,54 @@
 {% extends 'main/base.html' %}
-{%  block content %}
-<div class="container" >
-    {% block user_info %}{% endblock user_info %}
-    <div class="row g-3">
-        <div class="col-md-8">
-            {% if posts %}
-            {% for post in posts %}
-                <div class="blog-post p-3 bg-light rounded mb-3 pb-2">
-                    <h2 class="blog-post-title text-center pb-3 m-0">
-                        <a href="{% url 'main:show_post' post.slug %}" class="text-reset text-decoration-none">
-                            {{ post.title|capfirst }}
-                        </a>
-                    </h2>
-                    {% if post.image %}
-                        <img src="{{ post.image.url }}" alt="" class="w-100 rounded mb-3">
-                    {% endif %}
-                    {% if post.text %}
-                        {% filter truncatewords:200 %}
-                        <p>{{ post.text|capfirst }}</p>
-                        {% endfilter %}
-                    {% endif %}
-                    <div class="w-100 small d-flex justify-content-between border-top pt-2">
-                        <p class="blog-post-meta mb-0">{{ post.publish_date }}</p>
-                        <a href="{% url 'main:user' post.author.slug %}" class="text-warning text-decoration-none">
-                            {{ post.author.username }}
-                        </a>
-                    </div>
-                </div>
-            {% endfor %}
-            {% else %}
-            <h1 class="text-center">Здесь ещё нет постов, самое время их создать!</h1>
+{% load static %}
+{% block static-files %}
+    <link rel="stylesheet" href="{% static 'main/css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
+    <script src="https://code.jquery.com/jquery-1.10.2.js" defer></script>
+{% endblock static-files %}
+{% block content %}
+{% if posts %}
+{% block posts-description %}{% endblock posts-description %}
+{% for post in posts %}
+    <div class="post">
+        <h2 class="post-post_title">
+            <a href="{% url 'main:show_post' post.slug %}" class="post-post_title__title">
+                {{ post.title|capfirst }}
+            </a>
+        </h2>
+        <div class="post-card">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="" class="post-card__image">
             {% endif %}
+            {% if post.text %}
+                    <p class="post-card__text">{{ post.text|capfirst }}</p>
+            {% endif %}
+            <div class="show">показать полностью</div>
         </div>
-        <div class="col-md-4 mt-3">
-            <div class="position-sticky" style="top: 16px;">
-                {% if not request.user.is_authenticated %}
-                <div class="p-4 bg-light rounded">
-                        <h3 class="mb-3 fw-normal text-center rounded">Вход или регистрация</h3>
-                        <a href="{% url 'main:login' %}">
-                            <button class="w-100 btn btn-lg btn-warning mb-3" type="button">Вход</button>
-                        </a>
-                        <a href="{% url 'main:register' %}">
-                            <button class="w-100 btn btn-lg" type="button">Регистрация</button>
-                        </a>
-                </div>
-                {% endif %}
-                {% if request.user.is_authenticated %}
-                    <div class="p-3 fw-normal bg-light mb-3 rounded">
-                        <h4 class="">{{ request.user.username }} <span class="small">(это вы)</span></h4>
-                        <ol class="list-unstyled mb-0">
-                            <li><p class="m-0">{{ request.user.email }}</p></li>
-                        </ol>
-                    </div>
-                    <div class="p-4 fw-normal bg-light rounded mb-3">
-                        <a href="{% url 'main:my_profile' %}">
-                            <button class="w-100 btn btn-lg btn-warning mb-3">Моя страница</button>
-                        </a>
-                        <a href="{% url 'main:new_post' %}">
-                            <button class="w-100 btn btn-lg btn-warning mb-3">Создать пост</button>
-                        </a>
-                        <a href="{% url 'main:logout' %}">
-                             <button class="w-100 btn btn-lg btn-warning">Выйти</button>
-                        </a>
-                    </div>
-                {% endif %}
-                <form class="p-4 fw-normal bg-light mt-3 rounded" action="{% url 'main:search' %}" method="get">
-                    <input type="text" name='q' autocomplete="off" class="form-control form-control-dark" placeholder="Поиск" aria-label="Search">
-                </form>
-            </div>
+        <div class="post-description">
+            <p class="post-description__pub_date">{{ post.publish_date }}</p>
+            <a class="post-description-comments_counter" href="{% url 'main:show_post' post.slug %}#comments">
+                {% for k, v in comments.items %}
+                    {% if k == post.pk %}
+                        <p>{{ v }}</p>
+                    {% endif %}
+                {% endfor %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
+                  <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                  <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+            </a>
+            <a href="{% url 'main:user' post.author.slug %}" class="post-description__author">
+                {{ post.author.username }}
+            </a>
         </div>
     </div>
-</div>
+{% endfor %}
+{% else %}
+<h2 class="no-posts">
+    {% block no-posts %}
+        Здесь ещё нет постов, самое время их создать!
+    {% endblock no-posts %}
+</h2>
+{% endif %}
+<script src="{% static 'main/js/post.js' %}" defer></script>
 {% endblock content %}

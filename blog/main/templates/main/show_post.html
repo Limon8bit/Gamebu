@@ -1,93 +1,62 @@
 {% extends 'main/base.html' %}
+{% load static %}
+{% block static-files %}
+    <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/show_post.css' %}">
+{% endblock static-files %}
 {%  block content %}
-<div class="container">
-    <div class="row g-3">
-        <div class="col-md-8">
-            <div class="blog-post p-3 bg-light rounded mb-3 pb-2">
-                <h2 class="blog-post-title text-center pb-3 m-0">
-                    <a href="{% url 'main:show_post' post.slug %}" class="text-reset text-decoration-none">
-                        {{ post.title|capfirst }}
-                    </a>
-                </h2>
-                {% if post.image %}
-                <img src="{{ post.image.url }}" alt="" class="w-100 rounded mb-3">
-                {% endif %}
-                <p>{{ post.text|capfirst }}</p>
-                <div class="w-100 small d-flex justify-content-between border-top pt-2">
-                    <p class="blog-post-meta mb-0">{{ post.publish_date }}</p>
-                    <a href="{% url 'main:user' post.author.slug %}" class="text-warning text-decoration-none">
-                        {{ post.author.username }}
-                    </a>
-                </div>
-            </div>
-            <div class="blog-post p-3 bg-light rounded mb-3 pb-2">
-                {% if not comments %}
-                <p class="text-center m-0 p-0">Этот пост ещё никто не прокомментировал, будьте первым</p>
-                {% endif %}
-                <div>
-                    {% for comment in comments %}
-                    <div class="bg-light mb-3 border rounded p-3 border-warning">
-                        <p>{{ comment.text }}</p>
-                        <div class="w-100 small d-flex justify-content-between border-top pt-2">
-                            <p class="small m-0">{{ comment.post_time }}</p>
-                            <a href="{% url 'main:user' comment.author.slug %}"
-                               class="text-warning text-decoration-none small m-0">
-                                {{ comment.author }}
-                            </a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+<div class="post">
+    <h2 class="post-post_title">
+        <a href="{% url 'main:show_post' post.slug %}" class="post-post_title__title">
+            {{ post.title|capfirst }}
+        </a>
+    </h2>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="" class="post__image">
+    {% endif %}
+    {% if post.text %}
+        <p class="post-text__text">{{ post.text|capfirst }}</p>
+    {% endif %}
+    <div class="post-description">
+        <p class="post-description__pub_date">{{ post.publish_date }}</p>
+        <div>
+            <img src="" alt="">
+            {{ post.comment.count }}
         </div>
-        <div class="col-md-4 mt-3">
-            <div class="position-sticky" style="top: 16px;">
-                {% if not request.user.is_authenticated %}
-                <div class="p-4 bg-light rounded mb-3">
-                    <h3 class="mb-3 fw-normal text-center rounded">Вход или регистрация</h3>
-                    <a href="{% url 'main:login' %}">
-                        <button class="w-100 btn btn-lg btn-warning mb-3" type="button">Вход</button>
-                    </a>
-                    <a href="{% url 'main:register' %}">
-                        <button class="w-100 btn btn-lg" type="button">Регистрация</button>
-                    </a>
-                </div>
-                {% endif %}
-                {% if request.user.is_authenticated %}
-                <div class="p-3 fw-normal bg-light mb-3 rounded">
-                    <h4 class="">{{ request.user.username }} <span class="small">(это вы)</span></h4>
-                    <ol class="list-unstyled mb-0">
-                        <li><p class="m-0">{{ request.user.email }}</p></li>
-                    </ol>
-                </div>
-                <div class="p-3 fw-normal bg-light rounded mb-3">
-                    <a href="{% url 'main:my_profile' %}">
-                        <button class="w-100 btn btn-lg btn-warning mb-3">Моя страница</button>
-                    </a>
-                    <a href="{% url 'main:new_post' %}">
-                        <button class="w-100 btn btn-lg btn-warning mb-3">Создать пост</button>
-                    </a>
-                    <a href="{% url 'main:logout' %}">
-                        <button class="w-100 btn btn-lg btn-warning">Выйти</button>
+        <a href="{% url 'main:user' post.author.slug %}" class="post-description__author">
+            {{ post.author.username }}
+        </a>
+    </div>
+</div>
+<div class="comments" id="comments">
+    {% if not comments %}
+        <p class="comments__none">Этот пост ещё никто не прокомментировал, будьте первым!</p>
+    {% endif %}
+    <div>
+        {% for comment in comments %}
+            <div class="comments-comment">
+                <p class="post-text__text">{{ comment.text }}</p>
+                <div class="post-description">
+                    <p class="post-description__pub_date">{{ comment.post_time }}</p>
+                    <a href="{% url 'main:user' comment.author.slug %}"
+                       class="post-description__author">
+                        {{ comment.author }}
                     </a>
                 </div>
-                {% endif %}
-                <form class="p-4 fw-normal bg-light mb-3 rounded" action="{% url 'main:search' %}" method="get">
-                    <input type="text" name='q' class="form-control form-control-dark" placeholder="Поиск"
-                           aria-label="Search">
-                </form>
-                {% if request.user.is_authenticated %}
-                <div class="p-3 fw-normal bg-light rounded mb-3">
-                    <h3>Добавить комментарий</h3>
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button class='btn w-100 btn-warning rounded btn-lg' type="submit">Отправить</button>
-                    </form>
-                </div>
-                {% endif %}
             </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock content %}
+{% block comments %}
+    {% if request.user.is_authenticated %}
+        <div class="right-navigation-comment_field user">
+            <h3 class="right-navigation-comment_field-title">Добавить комментарий</h3>
+            <form action="" method="POST" class="right-navigation-comment_field__comment_form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class='right-navigation__button' type="submit">Отправить</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock comments %}
