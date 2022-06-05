@@ -3,6 +3,10 @@
     justify-content: space-around;
 }
 
+.container-box-form_wrap{
+    width: 100%;
+}
+
 .container-box{
     background-color: rgb(107, 107, 107);
     padding: 15px;
