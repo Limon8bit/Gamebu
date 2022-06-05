@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
-        'Username',
+        'логин',
         max_length=20,
         db_index=True,
         unique=True
